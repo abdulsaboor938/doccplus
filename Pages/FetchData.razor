@@ -34,6 +34,7 @@
                         <th>Name</th>
                         <th>Age</th>
                         <th>Prescribtion</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,6 +45,13 @@
                             <td>@forecast.TemperatureC</td>
                             <td>@forecast.TemperatureF</td>
                             <td>@forecast.Summary</td>
+                            <td>
+                                <!-- Edit the current forecast -->
+                                <button class="btn btn-primary"
+                                @onclick="(() => EditForecast(forecast))">
+                                Edit Record
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -161,9 +169,19 @@
         else
         {
             // This is an update
+            var result =
+            @Service.UpdateForecastAsync(objWeatherForecast);
         }
         // Get the forecasts for the current user
         forecasts =
         await @Service.GetForecastAsync(UserIdentityName);
+    }
+    void EditForecast(WeatherForecast weatherForecast)
+    {
+        // Set the selected forecast
+        // as the current forecast
+        objWeatherForecast = weatherForecast;
+        // Open the Popup
+        ShowPopup = true;
     }
 }

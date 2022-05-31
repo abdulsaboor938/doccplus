@@ -30,5 +30,29 @@ namespace doccplus.Data
             _context.SaveChanges();
             return Task.FromResult(objWeatherForecast);
         }
+        public Task<bool>UpdateForecastAsync(WeatherForecast objWeatherForecast)
+        {
+            var ExistingWeatherForecast =
+                _context.WeatherForecast
+                .Where(x => x.Id == objWeatherForecast.Id)
+                .FirstOrDefault();
+            if (ExistingWeatherForecast != null)
+            {
+                ExistingWeatherForecast.Date =
+                    objWeatherForecast.Date;
+                ExistingWeatherForecast.Summary =
+                    objWeatherForecast.Summary;
+                ExistingWeatherForecast.TemperatureC =
+                    objWeatherForecast.TemperatureC;
+                ExistingWeatherForecast.TemperatureF =
+                    objWeatherForecast.TemperatureF;
+                _context.SaveChanges();
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
+            return Task.FromResult(true);
+        }
     }
 }
