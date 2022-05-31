@@ -18,6 +18,7 @@
     <!-- Show this section if the user is logged in -->
     <Authorized>
         <h4>Hello, @context.User.Identity?.Name!</h4>
+        <h4>This is your patient history.</h4>
         @if (forecasts == null)
         {
             <!-- Show this if the current user has no data... yet... -->
