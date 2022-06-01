@@ -11,9 +11,20 @@
     We access WeatherForecastService using @Service
 *@
 @inherits OwningComponentBase<WeatherForecastService>
-<h1>Patient History</h1>
+@*<h1>Patient History</h1>*@
 <!-- AuthorizeView allows us to only show sections of the page -->
 <!-- based on the security on the current user -->
+<div>
+<style>
+    body {
+        background-image: url('https://cdn.dribbble.com/users/2008861/screenshots/5969275/media/fb0d48b9cf380893648aa98508578ea4.gif');
+        background-repeat: no-repeat;
+        float:none;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+</div>
 <AuthorizeView>
     <!-- Show this section if the user is logged in -->
     <Authorized>
@@ -70,7 +81,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h3 class="modal-title">Add Record</h3>
+                                <h3 class="modal-title">Done</h3>
                                 <!-- Button to close the popup -->
                                 <button type="button" class="close"
                                 @onclick="ClosePopup">
@@ -92,8 +103,17 @@
                                 <!-- Button to save the forecast -->
                                 <button class="btn btn-success"
                                 @onclick="SaveForecast">
-                                    Add Record
+                                    Done
                                 </button>&nbsp;
+                                <!-- Only show delete button if not a new record -->
+                                @if (objWeatherForecast.Id > 0)
+                                {                                    
+                                    <!-- Button to delete the forecast -->
+                                    <button class="btn btn-danger"
+                                    @onclick="DeleteForecast">
+                                    Delete Record
+                                </button>
+                                }
                              </div>
                         </div>
                     </div>
@@ -183,5 +203,15 @@
         objWeatherForecast = weatherForecast;
         // Open the Popup
         ShowPopup = true;
+    }
+    async Task DeleteForecast()
+    {
+        // Close the Popup
+        ShowPopup = false;
+        // Delete the forecast
+        var result = @Service.DeleteForecastAsync(objWeatherForecast);
+        // Get the forecasts for the current user
+        forecasts =
+        await @Service.GetForecastAsync(UserIdentityName);
     }
 }

@@ -54,5 +54,23 @@ namespace doccplus.Data
             }
             return Task.FromResult(true);
         }
+        public Task<bool>
+            DeleteForecastAsync(WeatherForecast objWeatherForecast)
+        {
+            var ExistingWeatherForecast =
+                _context.WeatherForecast
+                .Where(x => x.Id == objWeatherForecast.Id)
+                .FirstOrDefault();
+            if (ExistingWeatherForecast != null)
+            {
+                _context.WeatherForecast.Remove(ExistingWeatherForecast);
+                _context.SaveChanges();
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
+            return Task.FromResult(true);
+        }
     }
 }
